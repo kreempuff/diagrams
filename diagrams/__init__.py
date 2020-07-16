@@ -2,8 +2,9 @@ import contextvars
 import os
 import uuid
 from pathlib import Path
+import argparse
+import shutil
 from typing import List, Union, Dict
-
 from graphviz import Digraph
 
 # Global contexts for a diagrams and a cluster.
@@ -13,6 +14,17 @@ from graphviz import Digraph
 # not need to specify the current diagrams or cluster via parameters.
 __diagram = contextvars.ContextVar("diagrams")
 __cluster = contextvars.ContextVar("cluster")
+
+
+
+basedir = Path(os.path.abspath(os.path.dirname(__file__)))
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument("--resource-dir")
+args = parser.parse_args()
+if args.resource_dir:
+    shutil.copytree(os.path.join(basedir.parent, "resources"), args.resource_dir)
+
+
 
 
 def getdiagram():
